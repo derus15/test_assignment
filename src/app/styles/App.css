@@ -1,0 +1,22 @@
+body {
+    position: relative;
+    width: 90%;
+    max-width: 1270px;
+    text-align: center;
+    height: 96vh;
+    margin: 25px auto 0;
+    animation: init ease-in-out .2s;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+    font-family: 'Montserrat', sans-serif;
+}
+
+* {
+    /*box-shadow: 0 0 0 1px red;*/
+}
+
+.ChartContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}

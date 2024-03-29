@@ -1,0 +1,20 @@
+.DataPickerContainer {
+    display: flex;
+    justify-content: space-around;
+    font-size: 20px;
+    margin-top: 100px;
+}
+
+input[type='date'] {
+
+    -moz-appearance: textfield;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.8);
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+input[type='date']::-webkit-datetime-edit {
+    padding: 5px;
+}
