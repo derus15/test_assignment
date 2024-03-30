@@ -20,27 +20,21 @@ export const fetchExchangeRate = createAsyncThunk(
 
             const { currency, dateStart } = arg;
             const currencyObject = {};
-            let currentDate: string;
+            let currentDate: string = dateStart;
 
             // eslint-disable-next-line no-plusplus
-            for (let i = 0; i < 7; i++) {
-
-                if (i === 0) {
-                    currentDate = dateStart;
-                } else {
-                    currentDate = incrementDate(currentDate);
-                }
-
+            for (let i = 0; i <= 7; i++) {
+                
                 // eslint-disable-next-line no-await-in-loop
                 const { data } = await axios.get(
                     `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${currentDate}/v1/currencies/${currency}.json`,
                 );
 
                 currencyObject[currentDate] = data[currency].rub;
+                currentDate = incrementDate(currentDate);
             }
-
-            console.log(currencyObject);
-            return currencyObject;
+                        
+            return { currency: currencyObject };
 
         } catch (e) {
             console.log(e);

@@ -12,6 +12,7 @@ import {
 import { Line } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
 import { StateSchema } from '../../app/Store/types.ts';
+import { parseChartData } from '../../shared/lib/parseChartData.ts';
 
 ChartJS.register(
     CategoryScale,
@@ -25,24 +26,16 @@ ChartJS.register(
 
 export const CurrencyChart = () => {
 
-    const currency = useSelector((state: StateSchema) => state.exchangeRate?.data);
+    const currencyDataList = useSelector((state: StateSchema) => state.exchangeRate?.data);
+    const data = parseChartData(currencyDataList);
 
-    const data = {
-        labels: [],
-        datasets: [{
-            label: 'Euro',
-            data: currency,
-            fill: false,
-            borderColor: 'white',
-            tension: 0.1,
-        }],
-    };
+    if (!data) {
+        return <div>Loading...</div>;
+    }
 
     return (
-
         <div className={style.Chart}>
             <Line data={data} />
         </div>
-
     );
 };
