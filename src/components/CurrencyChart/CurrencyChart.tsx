@@ -24,6 +24,17 @@ ChartJS.register(
     Legend,
 );
 
+const initialData = {
+    labels: ['2024.03.02', '2024.03.03', '2024.03.04', '2024.03.05', '2024.03.06'],
+    datasets: [{
+        label: '',
+        data: [],
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1,
+    }],
+};
+
 export const CurrencyChart = () => {
 
     const currencyDataList = useSelector((state: StateSchema) => state.exchangeRate?.data);
@@ -35,7 +46,7 @@ export const CurrencyChart = () => {
 
     return (
         <div className={style.Chart}>
-            <Line data={data} />
+            <Line data={data || initialData} />
         </div>
     );
 };

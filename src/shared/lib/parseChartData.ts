@@ -1,6 +1,6 @@
 import { CurrencyRates } from '../../services/fetchExchangeRate/types.ts';
 
-export const parseChartData = (currencyDataList: CurrencyRates[]) => {
+export const parseChartData = (currencyDataList: CurrencyRates[] | undefined) => {
 
     if (!currencyDataList || currencyDataList.length === 0) {
         return null;

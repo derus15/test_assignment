@@ -1,10 +1,10 @@
-import { Dispatch, memo, SetStateAction } from 'react';
+import { memo } from 'react';
 import style from './Checkbox.module.css';
 
 interface checkboxProps {
     label: string,
     checked?: boolean,
-    setIsChecked?: Dispatch<SetStateAction<boolean>>,
+    onClick?: () => void,
 }
 
 const Checkbox = memo((props: checkboxProps) => {
@@ -12,7 +12,8 @@ const Checkbox = memo((props: checkboxProps) => {
     const {
         label,
         checked,
-        setIsChecked,
+        onClick,
+        ...otherProps
     } = props;
 
     return (
@@ -21,7 +22,8 @@ const Checkbox = memo((props: checkboxProps) => {
                 <input
                     type="checkbox"
                     checked={checked}
-                    onChange={() => setIsChecked((prev) => !prev)}
+                    onClick={onClick}
+                    {...otherProps}
                 />
                 <span className={style.span}>{label}</span>
             </label>

@@ -4,14 +4,14 @@ import { useAppDispatch } from '../hooks/reduxHooks/reduxHooks.ts';
 import { fetchExchangeRate } from '../services/fetchExchangeRate/fetchExchangeRate.tsx';
 import { CurrencyChart } from '../components/CurrencyChart/CurrencyChart.tsx';
 import { DataPicker } from '../components/DataPicker/DataPicker.tsx';
-import CheckboxContainer from '../components/Checkbox/CheckboxContainer.tsx';
+import CheckboxContainer from '../components/CurrencyFilters/UI/CheckboxContainer.tsx';
 
 const App = () => {
 
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(fetchExchangeRate({ currency: 'eur', dateStart: '2024-03-02' }));
+        dispatch(fetchExchangeRate({ currencies: ['eur'], startDate: '2024-03-02' }));
     }, [dispatch]);
 
     return (

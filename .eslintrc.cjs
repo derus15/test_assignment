@@ -38,7 +38,7 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'no-trailing-spaces': 'off',
     'padded-blocks': 'off',
-    'max-len': ['error', { code: 125, ignoreComments: true }],
+    'max-len': ['error', { code: 130, ignoreComments: true }],
     'no-param-reassign': 'off',
     'react/jsx-no-bind': 'off',
     'jsx-a11y/click-events-have-key-events': 'off',
@@ -57,5 +57,6 @@ module.exports = {
     'react/jsx-wrap-multilines': 'off',
     'jsx-a11y/control-has-associated-label': 'off',
     'consistent-return': 'off',
+    'no-plusplus': 'off',
   },
 }

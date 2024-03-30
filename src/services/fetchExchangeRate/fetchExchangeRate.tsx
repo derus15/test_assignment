@@ -1,41 +1,51 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { incrementDate } from '../../shared/lib/incrementDate.ts';
+import { AvailableCurrencies } from '../../app/types/globalTypes.ts';
 
 interface fetchExchangeRateArg {
-    currency: 'eur' | 'usd' | 'cny' | '',
-    dateStart?: string,
+    currencies: AvailableCurrencies[],
+    startDate?: string,
 }
-
-const initialState: fetchExchangeRateArg = {
-    currency: '',
-    dateStart: '',
-};
 
 export const fetchExchangeRate = createAsyncThunk(
     'fetchExchange',
-    async (arg: fetchExchangeRateArg = initialState) => {
+    async (arg: fetchExchangeRateArg) => {
 
         try {
 
-            const { currency, dateStart } = arg;
-            const currencyObject = {};
-            let currentDate: string = dateStart;
+            const { currencies, startDate } = arg;
+            const calendarPeriod = 7;
+            const exchangeRates = {};
+            let currentDate: string = startDate;
 
-            // eslint-disable-next-line no-plusplus
-            for (let i = 0; i <= 7; i++) {
-                
-                // eslint-disable-next-line no-await-in-loop
-                const { data } = await axios.get(
-                    `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${currentDate}/v1/currencies/${currency}.json`,
-                );
+            if (!currencies) {
+                return {};
+            }
 
-                currencyObject[currentDate] = data[currency].rub;
-                currentDate = incrementDate(currentDate);
+            // eslint-disable-next-line no-restricted-syntax
+            for (const currency of currencies) {
+
+                const ratesForCurrentCurrency = {};
+
+                for (let i = 0; i <= calendarPeriod; i++) {
+
+                    // eslint-disable-next-line no-await-in-loop
+                    const { data } = await axios.get(
+                        `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${currentDate}/v1/currencies/${currency}.json`,
+                    );
+
+                    ratesForCurrentCurrency[currentDate] = data[currency].rub;
+                    
+                    currentDate = incrementDate(currentDate);
+                }
+
+                exchangeRates[currency] = ratesForCurrentCurrency;
+
             }
                         
-            return { currency: currencyObject };
-
+            return exchangeRates;
+            
         } catch (e) {
             console.log(e);
         }
