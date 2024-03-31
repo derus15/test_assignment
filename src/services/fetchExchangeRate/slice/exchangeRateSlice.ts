@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchExchangeRate } from './fetchExchangeRate.tsx';
-import { ExchangeRateSchema } from './types.ts';
+import { fetchExchangeRate } from '../fetchExchangeRate.tsx';
+import { ExchangeRateSchema } from '../types/types.ts';
 
 const initialState: ExchangeRateSchema = {
     data: [],
@@ -19,7 +19,7 @@ export const exchangeRateSlice = createSlice({
                 state.loadingStatus = 'loading';
             })
             .addCase(fetchExchangeRate.fulfilled, (state, action) => {
-                state.data = [...state.data, action.payload];
+                state.data = [action.payload];
                 state.loadingStatus = 'loaded';
             })
             .addCase(fetchExchangeRate.rejected, (state) => {

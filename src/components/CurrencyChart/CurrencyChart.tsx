@@ -13,6 +13,8 @@ import { Line } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
 import { StateSchema } from '../../app/Store/types.ts';
 import { parseChartData } from '../../shared/lib/parseChartData.ts';
+import { getExchangeLoadingStatus } from '../../services/fetchExchangeRate/selectors/fetchExchangeSelectros.ts';
+import { memo } from 'react';
 
 ChartJS.register(
     CategoryScale,
@@ -35,13 +37,19 @@ const initialData = {
     }],
 };
 
-export const CurrencyChart = () => {
+export const CurrencyChart = memo(() => {
 
     const currencyDataList = useSelector((state: StateSchema) => state.exchangeRate?.data);
+    const isLoading = useSelector(getExchangeLoadingStatus) === 'loading';
     const data = parseChartData(currencyDataList);
 
-    if (!data) {
-        return <div>Loading...</div>;
+    if (isLoading) {
+        return (
+            <div className={style.Chart}>
+                <h1>Loading...</h1>;
+            </div>
+        );
+            
     }
 
     return (
@@ -49,4 +57,4 @@ export const CurrencyChart = () => {
             <Line data={data || initialData} />
         </div>
     );
-};
+});

@@ -5,6 +5,28 @@
     margin-top: 100px;
 }
 
+.submitBtn {
+    min-width: 100px;
+    min-height: 42px;
+    padding: 10px 10px;
+    background-color: #4f4f4f;
+    border-radius: 5px;
+    font-size: 18px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.submitBtn:hover {
+    color: darkslategray;
+    transition: none;
+}
+
+.submitBtn:active {
+    color: white;
+}
+
 input[type='date'] {
 
     -moz-appearance: textfield;

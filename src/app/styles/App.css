@@ -11,10 +11,6 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
-* {
-    /*box-shadow: 0 0 0 1px red;*/
-}
-
 .ChartContainer {
     width: 100%;
     display: flex;

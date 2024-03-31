@@ -2,30 +2,31 @@ import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { incrementDate } from '../../shared/lib/incrementDate.ts';
 import { AvailableCurrencies } from '../../app/types/globalTypes.ts';
+import { toast } from 'react-toastify';
+import { daysBetweenDates } from '../../shared/lib/daysBetweenDates.ts';
+import { requestCounterActions } from '../../components/RequestCounter/model/slice/requestCounterSlice.ts';
 
 interface fetchExchangeRateArg {
     currencies: AvailableCurrencies[],
     startDate?: string,
+    endDate?: string,
 }
 
 export const fetchExchangeRate = createAsyncThunk(
     'fetchExchange',
-    async (arg: fetchExchangeRateArg) => {
+    async (arg: fetchExchangeRateArg, thunkApi) => {
 
         try {
 
-            const { currencies, startDate } = arg;
-            const calendarPeriod = 7;
-            const exchangeRates = {};
-            let currentDate: string = startDate;
+            const { currencies, startDate, endDate } = arg;
 
-            if (!currencies) {
-                return {};
-            }
+            const calendarPeriod = daysBetweenDates(startDate, endDate);
+            const exchangeRates = {};
 
             // eslint-disable-next-line no-restricted-syntax
             for (const currency of currencies) {
 
+                let currentDate: string = startDate;
                 const ratesForCurrentCurrency = {};
 
                 for (let i = 0; i <= calendarPeriod; i++) {
@@ -35,19 +36,26 @@ export const fetchExchangeRate = createAsyncThunk(
                         `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${currentDate}/v1/currencies/${currency}.json`,
                     );
 
+                    thunkApi.dispatch(requestCounterActions.incrementRequestCounter());
+
                     ratesForCurrentCurrency[currentDate] = data[currency].rub;
-                    
                     currentDate = incrementDate(currentDate);
                 }
 
                 exchangeRates[currency] = ratesForCurrentCurrency;
 
             }
-                        
+
             return exchangeRates;
-            
+
         } catch (e) {
-            console.log(e);
+
+            if (e.response.status === 404) {
+                toast.error('Серверная ошибка, курс не найден');
+            } else {
+                toast.error('Произошла непредвиденная ошибка');
+            }
+            return [];
         }
     },
 );

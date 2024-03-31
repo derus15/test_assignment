@@ -58,5 +58,6 @@ module.exports = {
     'jsx-a11y/control-has-associated-label': 'off',
     'consistent-return': 'off',
     'no-plusplus': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
 }
